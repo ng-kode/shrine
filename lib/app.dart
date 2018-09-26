@@ -17,6 +17,8 @@ import 'package:flutter/material.dart';
 import 'home.dart';
 import 'login.dart';
 import 'colors.dart';
+import 'backdrop.dart';
+import 'model/product.dart';
 
 // TODO: Convert ShrineApp to stateful widget (104)
 class ShrineApp extends StatelessWidget {
@@ -25,11 +27,13 @@ class ShrineApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Shrine',
-      // TODO: Change home: to a Backdrop with a HomePage frontLayer (104)
-      home: HomePage(),
-      // TODO: Make currentCategory field take _currentCategory (104)
-      // TODO: Pass _currentCategory for frontLayer (104)
-      // TODO: Change backLayer field value to CategoryMenuPage (104)
+      home: Backdrop(
+        currentCategory: Category.all,
+        frontLayer: HomePage(),
+        backLayer: Container(color: kShrineAltDarkGrey),
+        frontTitle: Text('SHRINE'),
+        backTitle: Text('MENU')
+      ),
       initialRoute: '/login',
       onGenerateRoute: _getRoute,
       theme: _kShrineTheme,
@@ -56,14 +60,6 @@ ThemeData _buildShrineTheme() {
   final ThemeData base = ThemeData.dark();
   return base.copyWith(
     // general
-    // accentColor: kShrineBrown900,
-    // primaryColor: kShrinePink100,
-    // buttonColor: kShrinePink100,
-    // scaffoldBackgroundColor: kShrineBackgroundWhite,
-    // cardColor: kShrineBackgroundWhite,
-    // textSelectionColor: kShrinePink100,
-    // errorColor: kShrineErrorRed,
-
     accentColor: kShrineAltYellow,
     primaryColor: kShrineAltDarkGrey,
     buttonColor: kShrineAltYellow,
@@ -104,8 +100,6 @@ TextTheme _buildShrineTextTheme(TextTheme base) {
     ),
   ).apply(
     fontFamily: 'Rubik',
-    // displayColor: kShrineBrown900,
-    // bodyColor: kShrineBrown900,
     displayColor: kShrineSurfaceWhite,
     bodyColor: kShrineSurfaceWhite,
   );
