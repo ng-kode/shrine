@@ -19,6 +19,13 @@ import 'model/products_repository.dart';
 import 'model/product.dart';
 
 class HomePage extends StatelessWidget {
+  final Category category;
+
+  HomePage({
+    Key key,
+    @required this.category
+  }) : assert(category != null);
+
   @override
   Widget build(BuildContext context) {
     return GridView.count(
@@ -30,7 +37,7 @@ class HomePage extends StatelessWidget {
   }
 
   List<Card> _buildGridCards(BuildContext context) {
-    List<Product> products = ProductsRepository.loadProducts(Category.all);
+    List<Product> products = ProductsRepository.loadProducts(category);
 
     if (products == null || products.isEmpty) {
       return <Card>[];

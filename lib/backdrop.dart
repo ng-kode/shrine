@@ -39,7 +39,7 @@ class _BackdropState extends State<Backdrop> with TickerProviderStateMixin {
         icon: Icon(Icons.menu, semanticLabel: 'menu',),
         onPressed: _toggleBackdropLayerVisibility,
       ),
-      title: Text('SHRINE'),
+      title: widget.frontTitle,
       actions: <Widget>[
         IconButton(
           icon: Icon(Icons.search, semanticLabel: 'search',),
@@ -78,7 +78,10 @@ class _BackdropState extends State<Backdrop> with TickerProviderStateMixin {
         ),
         PositionedTransition(
           rect: layerAnimation,
-          child: _FrontLayer(child: widget.frontLayer,),
+          child: _FrontLayer(
+            child: widget.frontLayer,
+            onTap: _toggleBackdropLayerVisibility,
+          ),
         )
       ]
     );
@@ -96,6 +99,17 @@ class _BackdropState extends State<Backdrop> with TickerProviderStateMixin {
       value: 1.0,
       vsync: this,
     );
+  }
+
+  @override
+  void didUpdateWidget(Backdrop old) {
+    super.didUpdateWidget(old);
+
+    if (widget.currentCategory != old.currentCategory) {
+      _toggleBackdropLayerVisibility();
+    } else if (!_frontLayerVisible) {
+      _ctrl.fling(velocity: _kFlingVelocity);
+    }
   }
 
   @override
@@ -118,20 +132,33 @@ class _BackdropState extends State<Backdrop> with TickerProviderStateMixin {
 
 // front layer corner-cut and elevation
 class _FrontLayer extends StatelessWidget {
-  _FrontLayer({Key key, this.child}) : super(key: key);
+  _FrontLayer({
+    Key key,
+    this.child,
+    this.onTap
+  }) : super(key: key);
 
   final Widget child;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     return Material(
       elevation: 16.0,
       shape: BeveledRectangleBorder(
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(36.0)),
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(46.0)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
+          GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: onTap,
+            child: Container(
+             height: 40.0,
+             alignment: AlignmentDirectional.centerStart,
+            ),
+          ),
           Expanded(
             child: child,
           )
