@@ -14,6 +14,8 @@
 
 import 'package:flutter/material.dart';
 
+import 'colors.dart';
+
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -39,31 +41,37 @@ class _LoginPageState extends State<LoginPage> {
             Column(
               children: <Widget>[
                 Image.asset('assets/diamond.png'),
+                // Image.asset('assets/diamond.png', color: kShrineBackgroundWhite,),
                 SizedBox(height: 16.0),
                 Text('SHRINE'),
               ],
             ),
             SizedBox(height: 120.0),
-            TextField(
-              controller: _usernameCtrl,
-              decoration: InputDecoration(filled: true, labelText: 'Username')
+            PrimaryColorOverride(
+              color: kShrineBrown900,
+              // color: kShrineAltYellow,
+              child: TextField(
+                controller: _usernameCtrl,
+                decoration: InputDecoration(labelText: 'Username')
+              ),
             ),
             SizedBox(height: 12.0),
             TextField(
               controller: _passwordCtrl,
-              decoration: InputDecoration(filled: true, labelText: 'Password'), obscureText: true,
+              decoration: InputDecoration(labelText: 'Password'), obscureText: true,
             ),
             ButtonBar(
               children: <Widget>[
                 FlatButton(child: Text('CANCEL'), onPressed: clearFields,),
-                RaisedButton(child: Text('NEXT'), onPressed: () {
-                  Navigator.pop(context);
-                },)
+                RaisedButton(
+                  child: Text('NEXT'),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  elevation: 8.0,
+                )
               ]
             )
-            // TODO: Wrap Username with AccentColorOverride (103)
-            // TODO: Remove filled: true values (103)
-            // TODO: Wrap Password with AccentColorOverride (103)
           ],
         ),
       ),
@@ -71,4 +79,18 @@ class _LoginPageState extends State<LoginPage> {
   }
 }
 
-// TODO: Add AccentColorOverride (103)
+class PrimaryColorOverride extends StatelessWidget {
+  PrimaryColorOverride({Key key, this.color, this.child})
+    :super(key: key);
+
+  final Color color;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Theme(
+      child: child,
+      data: Theme.of(context).copyWith(primaryColor: color)
+    );
+  }
+}

@@ -19,7 +19,6 @@ import 'model/products_repository.dart';
 import 'model/product.dart';
 
 class HomePage extends StatelessWidget {
-  // TODO: Make a collection of cards (102)
   // TODO: Add a variable for Category (104)
   @override
   Widget build(BuildContext context) {
@@ -66,8 +65,9 @@ class HomePage extends StatelessWidget {
 
     return products.map((product) {
       return Card(
+        elevation: 0.0,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             AspectRatio(
               aspectRatio: 18.0/11.0,
@@ -81,11 +81,21 @@ class HomePage extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 8.0),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Text(product.name, style: theme.textTheme.title, maxLines: 1,),
-                    SizedBox(height: 8.0,),
-                    Text(formatter.format(product.price), style: theme.textTheme.body2,),
+                    Text(
+                      product.name,
+                      style: theme.textTheme.button,
+                      softWrap: false,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+                    SizedBox(height: 4.0,),
+                    Text(
+                      formatter.format(product.price),
+                      style: theme.textTheme.caption,
+                    ),
                   ]
                 ),
               )
