@@ -52,25 +52,25 @@ class ShrineApp extends StatelessWidget {
 final ThemeData _kShrineTheme = _buildShrineTheme();
 
 ThemeData _buildShrineTheme() {
-  final ThemeData base = ThemeData.light();
-  // final ThemeData base = ThemeData.dark();
+  // final ThemeData base = ThemeData.light();
+  final ThemeData base = ThemeData.dark();
   return base.copyWith(
     // general
-    accentColor: kShrineBrown900,
-    primaryColor: kShrinePink100,
-    buttonColor: kShrinePink100,
-    scaffoldBackgroundColor: kShrineBackgroundWhite,
-    cardColor: kShrineBackgroundWhite,
-    textSelectionColor: kShrinePink100,
-    errorColor: kShrineErrorRed,
-
-    // accentColor: kShrineAltYellow,
-    // primaryColor: kShrineAltDarkGrey,
-    // buttonColor: kShrineAltYellow,
-    // scaffoldBackgroundColor: kShrineAltDarkGrey,
-    // cardColor: kShrineAltDarkGrey,
-    // textSelectionColor: kShrineAltDarkGrey,
+    // accentColor: kShrineBrown900,
+    // primaryColor: kShrinePink100,
+    // buttonColor: kShrinePink100,
+    // scaffoldBackgroundColor: kShrineBackgroundWhite,
+    // cardColor: kShrineBackgroundWhite,
+    // textSelectionColor: kShrinePink100,
     // errorColor: kShrineErrorRed,
+
+    accentColor: kShrineAltYellow,
+    primaryColor: kShrineAltDarkGrey,
+    buttonColor: kShrineAltYellow,
+    scaffoldBackgroundColor: kShrineAltDarkGrey,
+    cardColor: kShrineAltDarkGrey,
+    textSelectionColor: kShrineAltDarkGrey,
+    errorColor: kShrineErrorRed,
 
     // text
     textTheme: _buildShrineTextTheme(base.textTheme),
@@ -79,8 +79,8 @@ ThemeData _buildShrineTheme() {
 
     // icon
     primaryIconTheme: base.iconTheme.copyWith(
-      color: kShrineBrown900,
-      // color: kShrineAltYellow,
+      // color: kShrineBrown900,
+      color: kShrineAltYellow,
     ),
 
     // text fields
@@ -104,9 +104,9 @@ TextTheme _buildShrineTextTheme(TextTheme base) {
     ),
   ).apply(
     fontFamily: 'Rubik',
-    displayColor: kShrineBrown900,
-    bodyColor: kShrineBrown900,
-    // displayColor: kShrineSurfaceWhite,
-    // bodyColor: kShrineSurfaceWhite,
+    // displayColor: kShrineBrown900,
+    // bodyColor: kShrineBrown900,
+    displayColor: kShrineSurfaceWhite,
+    bodyColor: kShrineSurfaceWhite,
   );
 }
