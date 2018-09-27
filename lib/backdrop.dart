@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
 import 'model/product.dart';
+import 'login.dart';
 
 class Backdrop extends StatefulWidget {
   final Category currentCategory;
@@ -43,8 +44,14 @@ class _BackdropState extends State<Backdrop> with TickerProviderStateMixin {
       ),
       actions: <Widget>[
         IconButton(
-          icon: Icon(Icons.search, semanticLabel: 'search',),
-          onPressed: () { print('Search button'); }
+          icon: Icon(
+            Icons.search,
+            semanticLabel: 'search',
+          ),
+          onPressed: () {
+            print('Search button');
+            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => LoginPage()));
+          }
         ),
         IconButton(
           icon: Icon(Icons.tune, semanticLabel: 'filter',),
