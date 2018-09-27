@@ -35,11 +35,12 @@ class _BackdropState extends State<Backdrop> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     var appBar = AppBar(
       elevation: 0.0,
-      leading: IconButton(
-        icon: Icon(Icons.menu, semanticLabel: 'menu',),
-        onPressed: _toggleBackdropLayerVisibility,
+      title: _BackdropTitle(
+        listenable: _ctrl.view,
+        onPress: _toggleBackdropLayerVisibility,
+        frontTitle: widget.frontTitle,
+        backTitle: widget.backTitle,
       ),
-      title: widget.frontTitle,
       actions: <Widget>[
         IconButton(
           icon: Icon(Icons.search, semanticLabel: 'search',),
@@ -126,6 +127,91 @@ class _BackdropState extends State<Backdrop> with TickerProviderStateMixin {
   void _toggleBackdropLayerVisibility() {
     _ctrl.fling(
       velocity:  _frontLayerVisible ? -_kFlingVelocity : _kFlingVelocity
+    );
+  }
+}
+
+class _BackdropTitle extends AnimatedWidget {
+  final Function onPress;
+  final Widget frontTitle;
+  final Widget backTitle;
+
+  _BackdropTitle({
+    Key key,
+    Listenable listenable,
+    this.onPress,
+    @required this.frontTitle,
+    @required this.backTitle,
+  }) :  assert(frontTitle != null),
+        assert(backTitle != null),
+        super(key: key, listenable: listenable);
+
+  @override
+  Widget build(BuildContext context) {
+    final Animation<double> animation = this.listenable;
+
+    return DefaultTextStyle(
+      style: Theme.of(context).primaryTextTheme.title,
+      softWrap: false,
+      overflow: TextOverflow.ellipsis,
+      child: Row(
+        children: <Widget>[
+          // branded icon
+          SizedBox(
+            width: 72.0,
+            child: IconButton(
+            padding: EdgeInsets.only(right: 8.0),
+            onPressed: this.onPress,
+            icon: Stack(
+              children: <Widget>[
+                Opacity(
+                  opacity: animation.value,
+                  child: ImageIcon(AssetImage('assets/slanted_menu.png')),
+                ),
+                FractionalTranslation(
+                  translation: Tween<Offset>(
+                    begin: Offset.zero,
+                    end: Offset(1.0, 0.0)
+                  ).evaluate(animation),
+                  child: ImageIcon(AssetImage('assets/diamond.png')),
+                )
+              ],
+            )
+            )
+          ),
+          // title
+          Stack(
+            children: <Widget>[
+              Opacity(
+                opacity: CurvedAnimation(
+                  parent: ReverseAnimation(animation),
+                  curve: Interval(0.5, 1.0,),
+                ).value,
+                child: FractionalTranslation(
+                  translation: Tween<Offset>(
+                    begin: Offset.zero,
+                    end: Offset(0.5, 0.0)
+                  ).evaluate(animation),
+                  child: backTitle,
+                ),
+              ),
+              Opacity(
+                opacity: CurvedAnimation(
+                  parent: animation,
+                  curve: Interval(0.5, 1.0,),
+                ).value,
+                child: FractionalTranslation(
+                  translation: Tween<Offset>(
+                    begin: Offset(-0.25, 0.0),
+                    end: Offset.zero
+                  ).evaluate(animation),
+                  child: frontTitle,
+                ),
+              )
+            ],
+          )
+        ],
+      ),
     );
   }
 }
